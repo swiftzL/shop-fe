@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <meta name="referrer" content="never">
     <Header></Header>
     <router-view/>
     <!-- 部分路由不应该包含这个Footer -->

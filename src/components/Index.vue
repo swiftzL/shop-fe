@@ -27,96 +27,26 @@
         </div>
         <!-- 内容 -->
         <div class="seckill-content">
-          <div class="seckill-item" v-for="(item, index) in seckills.goodsList" :key="index">
+          <div class="seckill-item" v-for="(item, index) in seckill" :key="index">
             <div class="seckill-item-img">
-              <router-link to="/goodsList"><img :src="item.img"></router-link>
+              <router-link :to="{path:'goodsDetail', query:{bookid:item.bid}}"><img :src="item.bookimage"></router-link>
             </div>
             <div class="seckill-item-info">
-              <p>{{item.intro}}</p>
+              <p>{{item.bookname}}</p>
               <p>
-                <span class="seckill-price text-danger"><Icon type="social-yen"></Icon>{{item.price}}</span>
-                <span class="seckill-old-price"><s>{{item.realPrice}}</s></span>
+                <span class="seckill-price text-danger"><Icon type="social-yen"></Icon>{{item.bookprice}}</span>
+                <span class="seckill-old-price"><s>{{item.bookprice+1}}</s></span>
               </p>
             </div>
           </div>
         </div>
       </div>
       <!-- 电脑专场 -->
-      <div class="item-class">
-        <div class="item-class-head">
-          <span class="item-class-title">{{computer.title}}</span>
-          <ul>
-            <li v-for="(item, index) in computer.link" :key="index">
-              <router-link to="/goodsList">{{item}}</router-link>
-            </li>
-          </ul>
-        </div>
-        <div class="item-class-content" v-for="(item, index) in computer.detail" :key="index">
-          <div class="item-content-top">
-            <div class="item-big-img">
-              <router-link to="/goodsList">
-                <img :src="item.bigImg" alt="">
-              </router-link>
-            </div>
-            <div class="item-four-img">
-              <div class="item-four-detail" v-for="(subItem, index) in item.itemFour" :key="index">
-                <div class="item-four-detail-text">
-                  <p class="pt_bi_tit">{{subItem.title}}</p>
-                  <p class="pt_bi_promo">{{subItem.intro}}</p>
-                </div>
-                <div class="item-four-detail-img">
-                  <router-link to="/goodsList">
-                    <img :src="subItem.img" alt="">
-                  </router-link>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="item-content-bottom">
-            <div class="item-content-bottom-img" v-for="(subImg, index) in item.itemContent" :key="index">
-              <router-link to="/goodsList">
-                <img :src="subImg">
-              </router-link>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- 爱吃专场 -->
-      <div class="item-class">
-        <div class="item-class-head item-class-eat-head">
-          <span class="item-class-title">{{eat.title}}</span>
-          <ul>
-            <li v-for="(item, index) in eat.link" :key="index">
-              <router-link to="/goodsList">{{item}}</router-link>
-            </li>
-          </ul>
-        </div>
-        <div class="item-class-content" v-for="(item, index) in eat.detail" :key="index">
-          <div class="item-content-top">
-            <div class="item-big-img">
-              <img :src="item.bigImg" alt="">
-            </div>
-            <div class="item-four-img">
-              <div class="item-four-detail" v-for="(subItem, index) in item.itemFour" :key="index">
-                <div class="item-four-detail-text">
-                  <p class="pt_bi_tit pt_bi_tit-eat">{{subItem.title}}</p>
-                  <p class="pt_bi_promo">{{subItem.intro}}</p>
-                </div>
-                <div class="item-four-detail-img">
-                  <router-link to="/goodsList">
-                    <img :src="subItem.img" alt="">
-                  </router-link>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="item-content-bottom">
-            <div class="item-content-bottom-img" v-for="(subImg, index) in item.itemContent" :key="index">
-              <router-link to="/goodsList">
-                <img :src="subImg">
-              </router-link>
-            </div>
-          </div>
+      
+     
+        
+          
+          
         </div>
       </div>
     </div>
@@ -130,13 +60,14 @@ import store from '@/vuex/store';
 import { mapState, mapActions, mapGetters, mapMutations } from 'vuex';
 export default {
   name: 'Index',
-  created () {
-    this.loadSeckillsInfo();
-    this.loadCarouselItems();
-    this.loadComputer();
-    this.loadEat();
-    this.loadShoppingCart();
+  
+    created(){
+    const res =  this.$http.get("book/seckill").then((res)=>{
+      this.seckill = res.data.obj;
+      console.log(res)
+    })
   },
+ 
   mounted () {
     const father = this;
     this.setIntervalObj = setInterval(function () {
@@ -145,6 +76,7 @@ export default {
   },
   data () {
     return {
+      seckill: [],
       setIntervalObj: null
     };
   },

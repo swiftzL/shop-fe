@@ -4,7 +4,9 @@
       <i-input v-model="sreachData" size="large" class="sreach" placeholder="输入你想查找的商品">
         <Button slot="append" icon="ios-search" @click="sreach"></Button>
       </i-input>
-      <Tag v-for="(item, index) in promotionTags" :key="index" closable  @on-close="closeTags(index)"><span @click="selectTags(index)">{{item}}</span></Tag>
+      <Tag v-for="(item, index) in promotionTags" :key="index" closable  @on-close="closeTags(index)">
+        <router-link :to="{path:'goodsDetail', query:{bookid:item.bid}}">
+          <span >{{item.bookname}}</span></router-link></Tag>
     </div>
   </div>
 </template>
@@ -15,8 +17,16 @@ export default {
   data () {
     return {
       sreachData: '',
-      promotionTags: ['买2免1', '领200神券', '199减100', '母婴5折抢', '充100送20']
+      promotionTags: []
     };
+  },
+  
+  created(){
+    
+    const res =  this.$http.get("book/seckill").then((res)=>{
+      this.promotionTags = res.data.obj;
+      
+    })
   },
   methods: {
     closeTags (index) {

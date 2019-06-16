@@ -1,22 +1,14 @@
 <template>
   <div>
     <Search></Search>
-    <ShopHeader></ShopHeader>
-    <GoodsDetailNav></GoodsDetailNav>
+   
+    
     <div class="shop-item-path">
       <div class="shop-nav-container">
-        <Breadcrumb>
-          <BreadcrumbItem to="/">首页</BreadcrumbItem>
-          <BreadcrumbItem to="/goodsList">手机壳</BreadcrumbItem>
-          <BreadcrumbItem>手机保护套</BreadcrumbItem>
-        </Breadcrumb>
       </div>
     </div>
     <!-- 商品信息展示 -->
     <ShowGoods></ShowGoods>
-    <!-- 商品详细展示 -->
-    <ShowGoodsDetail></ShowGoodsDetail>
-    <Spin size="large" fix v-if="isLoading"></Spin>
   </div>
 </template>
 
@@ -34,7 +26,8 @@ export default {
     window.scrollTo(0, 0);
     next();
   },
-  created () {
+  created () { 
+    console.log(this.$route.query);
     this.loadGoodsInfo();
   },
   data () {
@@ -42,7 +35,13 @@ export default {
       tagsColor: [ 'blue', 'green', 'red', 'yellow' ]
     };
   },
+  watch: {
+            '$route': function (){
+                this.$router.go(0); //刷新页面
+            }
+},
   methods: {
+    
     ...mapActions(['loadGoodsInfo'])
   },
   computed: {

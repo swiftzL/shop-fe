@@ -23,6 +23,7 @@ const Merchant = resolve => require(['@/components/Merchant'], resolve);
 Vue.use(Router);
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/', // 首页

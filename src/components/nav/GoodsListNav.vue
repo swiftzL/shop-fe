@@ -3,16 +3,10 @@
     <div class="search-nav">
       <div class="search-nav-container">
         <ul>
-          <li>全部商品分类</li>
-          <li><router-link to="/">首页</router-link></li>
-          <li><router-link to="/">服装城</router-link></li>
-          <li><router-link to="/">美妆馆</router-link></li>
-          <li><router-link to="/">BIT超市</router-link></li>
-          <li><router-link to="/">生鲜</router-link></li>
-          <li><router-link to="/">全球购</router-link></li>
-          <li><router-link to="/">闪购</router-link></li>
-          <li><router-link to="/">拍卖</router-link></li>
-          <li><router-link to="/">金融</router-link></li>
+          <li><router-link :to="{path:'goodsList', query:{typeid:0}}">全部商品分类</router-link></li>
+          <li v-for="(item,index) in booktype">
+            <router-link :to="{path:'goodsList', query:{typeid:item.tid}}">{{item.typename}}</router-link>
+            </li>
         </ul>
       </div>
     </div>
@@ -21,7 +15,18 @@
 
 <script>
 export default {
-  name: 'GoodsListNav'
+  data(){
+    return {
+        booktype: {}
+    };
+  },
+  name: 'GoodsListNav',
+  created(){
+    const res =  this.$http.get("booktype/list").then((res)=>{
+      this.booktype = res.data.obj;
+    })
+    console.log("lzl")
+  }
 };
 </script>
 

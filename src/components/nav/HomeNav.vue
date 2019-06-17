@@ -12,7 +12,8 @@
       <div class="nav-side" ref="navSide">
         <ul>
           <li v-for="(item,index) in booktype"  @mouseenter="showDetail(1)" @mouseleave="hideDetail(1)">
-            <span class="nav-side-item">{{item.typename}}</span>
+            <router-link :to="{path:'goodsList', query:{typeid:item.tid}}">
+              <span class="nav-side-item">{{item.typename}}</span></router-link>
           </li>
           
         </ul>
@@ -61,7 +62,6 @@ export default {
   created(){
     const res =  this.$http.get("booktype/list").then((res)=>{
       this.booktype = res.data.obj;
-      console.log(res)
     })
   },
   methods: {

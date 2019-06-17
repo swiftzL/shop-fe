@@ -3,58 +3,22 @@
     <Search></Search>
     <GoodsListNav></GoodsListNav>
     <div class="container">
-      <div class="bread-crumb">
-        <Breadcrumb>
-          <BreadcrumbItem to="/">
-            <Icon type="ios-home-outline"></Icon> 首页
-          </BreadcrumbItem>
-          <BreadcrumbItem to="/goodsList?sreachData=">
-            <Icon type="bag"></Icon> {{searchItem}}
-          </BreadcrumbItem>
-        </Breadcrumb>
-      </div>
-      <!-- 商品标签导航 -->
-      <GoodsClassNav></GoodsClassNav>
+      
+     
       <!-- 商品展示容器 -->
       <div class="goods-box">
-        <div class="as-box">
-          <div class="item-as-title">
-            <span>商品精选</span>
-            <span>广告</span>
-          </div>
-          <div class="item-as" v-for="(item,index) in asItems" :key="index">
-            <div class="item-as-img">
-              <img :src="item.img" alt="">
-            </div>
-            <div class="item-as-price">
-              <span>
-                <Icon type="social-yen text-danger"></Icon>
-                <span class="seckill-price text-danger">{{item.price}}</span>
-              </span>
-            </div>
-            <div class="item-as-intro">
-              <span>{{item.intro}}</span>
-            </div>
-            <div class="item-as-selled">
-              已有<span>{{item.num}}</span>人评价
-            </div>
-          </div>
-        </div>
+        
         <div class="goods-list-box">
-          <div class="goods-list-tool">
-            <ul>
-              <li v-for="(item,index) in goodsTool" :key="index" @click="orderBy(item.en, index)"><span :class="{ 'goods-list-tool-active': isAction[index]}">{{item.title}} <Icon :type="icon[index]"></Icon></span></li>
-            </ul>
-          </div>
+          
           <div class="goods-list">
-            <div class="goods-show-info" v-for="(item, index) in orderGoodsList" :key="index">
+            <div class="goods-show-info" v-for="(item, index) in booklist" :key="index">
               <div class="goods-show-img">
-                <router-link to="/goodsDetail"><img :src="item.img"/></router-link>
+                <router-link :to="{path:'goodsDetail', query:{bookid:item.bid}}"><img :src="item.bookimage" width="250px" height="400px" /></router-link>
               </div>
               <div class="goods-show-price">
                 <span>
                   <Icon type="social-yen text-danger"></Icon>
-                  <span class="seckill-price text-danger">{{item.price}}</span>
+                  <span class="seckill-price text-danger">{{item.bookprice}}</span>
                 </span>
               </div>
               <div class="goods-show-detail">
@@ -64,14 +28,15 @@
                 已有<span>{{item.remarks}}</span>人评价
               </div>
               <div class="goods-show-seller">
-                <span>{{item.shopName}}</span>
+                <span>{{item.bookname}}</span>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="goods-page">
-        <Page :total="100" show-sizer></Page>
+        <Page :page-size-opts=[12,24] show-total=true :page-size=pageinfo.pageSize :current=pageinfo.pageNum 
+        :total=pageinfo.total @on-change="handlePage" @on-page-size-change='handlePageSize' show-sizer></Page>
       </div>
     </div>
     <Spin size="large" fix v-if="isLoading"></Spin>
@@ -92,23 +57,46 @@ export default {
   },
   data () {
     return {
-      searchItem: '',
-      isAction: [ true, false, false ],
-      icon: [ 'arrow-up-a', 'arrow-down-a', 'arrow-down-a' ],
-      goodsTool: [
-        {title: '综合', en: 'sale'},
-        {title: '评论数', en: 'remarks'},
-        {title: '价格', en: 'price'}
-      ]
+      booklist:{},
+      pageinfo:{}
     };
+  },
+  watch: {
+            '$route': function (){
+                this.$router.go(0); //刷新页面
+            }
+},
+  created() {
+    this.typeid = this.$route.query.typeid
+    this.pagenum = 1
+    this.pagesize = 12
+    this.findBook()
   },
   computed: {
     ...mapState(['asItems', 'isLoading']),
     ...mapGetters(['orderGoodsList'])
   },
   methods: {
-    ...mapActions(['loadGoodsList']),
-    ...mapMutations(['SET_GOODS_ORDER_BY']),
+    handlePage(value){
+        this.pagenum = value
+        this.findBook()
+    },
+    handlePageSize(value) {
+      this.pagesize = value
+      this.findBook()
+    },
+    findBook(){
+      const res =  this.$http.get("book/findByTid",{
+      params:{
+        tid:this.typeid,
+        pagenum:this.pagenum,
+        pagesize:this.pagesize
+      }
+    }).then((res)=>{
+      this.pageinfo = res.data.obj
+      this.booklist = res.data.obj.list
+    })
+    },
     orderBy (data, index) {
       console.log(data);
       this.icon = [ 'arrow-down-a', 'arrow-down-a', 'arrow-down-a' ];
@@ -116,10 +104,8 @@ export default {
       this.isAction[index] = true;
       this.icon[index] = 'arrow-up-a';
       this.SET_GOODS_ORDER_BY(data);
-    }
-  },
-  created () {
-    this.loadGoodsList();
+    },
+    
   },
   mounted () {
     this.searchItem = this.$route.query.sreachData;
@@ -241,9 +227,9 @@ export default {
 }
 .goods-show-info{
   width: 240px;
-  padding: 10px;
-  margin: 15px 0px;
-  border: 1px solid #fff;
+  padding: 40px;
+  margin: 15px 50px;
+  border: 5px solid #fff;
   cursor: pointer;
 }
 .goods-show-info:hover{

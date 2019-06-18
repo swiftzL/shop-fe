@@ -4,7 +4,7 @@
       <div class="search-nav-container">
         <ul>
           <li><router-link :to="{path:'goodsList', query:{typeid:0}}">全部商品分类</router-link></li>
-          <li v-for="(item,index) in booktype">
+          <li v-for="(item,index) in booktype" >
             <router-link :to="{path:'goodsList', query:{typeid:item.tid}}">{{item.typename}}</router-link>
             </li>
         </ul>

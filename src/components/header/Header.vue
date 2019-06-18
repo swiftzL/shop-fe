@@ -13,6 +13,7 @@
                   <span v-for="(item, index) in items"  class="city-item" :key="index" @click="changeCity(item)">{{item}}</span>
                 </p>
               </div>
+              
             </DropdownMenu>
           </Dropdown>
         </li>

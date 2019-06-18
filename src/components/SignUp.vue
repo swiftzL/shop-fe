@@ -12,9 +12,8 @@
         </div>
         <div class="sing-up-step-box">
           <Steps :current="signUpStep">
-              <Step title="验证手机号" icon="iphone"></Step>
-              <Step title="填写账号信息" icon="person-add"></Step>
-              <Step title="注册成功" icon="ios-checkmark-outline"></Step>
+              <Step title="注册" icon="iphone"></Step>
+              
           </Steps>
           <div class="sign-up-box">
             <transition mode="out-in">
@@ -55,7 +54,7 @@ export default {
 <style scoped>
 .container {
   margin: 15px auto;
-  height: 500px;
+  height: 1000px;
   overflow: hidden;
 }
 .signup-img-box {
@@ -75,9 +74,9 @@ export default {
 .sing-up-step-box {
   margin: 15px auto;
   padding-left: 30px;
-  padding-top: 30px;
-  width: 430px;
-  height: 380px;
+  padding-top: 3px;
+  width: 500px;
+  height: 600px;
   border: 1px solid #495060;
 }
 .sign-up-box {

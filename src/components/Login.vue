@@ -22,6 +22,13 @@
                       <Icon type="ios-locked-outline" slot="prepend"> </Icon>
                   </i-input>
               </FormItem>
+              <FormItem prop="phone">
+        <img src="http://localhost:8080/user/getCode" 
+        onclick="this.src='http://localhost:8080/user/getCode?s='+Math.random()"/>
+          <i-input v-model="formDate.code" clearable size="large"  placeholder="请输入图形验证码">
+          </i-input>
+      </FormItem>
+              
               <FormItem>
                   <Button type="error" size="large" @click="handleSubmit('formInline')" long>登录</Button>
               </FormItem>
@@ -59,6 +66,10 @@ export default {
     ...mapMutations(['SET_USER_LOGIN_INFO']),
     ...mapActions(['login']),
     handleSubmit (name) {
+      console.log("lzl123")
+      this.$http.get("user/test").then(res =>{
+        console.log(res)
+      })
       const father = this;
       console.log(this.formDate.username);
       this.$refs[name].validate((valid) => {
@@ -84,7 +95,7 @@ export default {
 <style scoped>
 .container {
   margin-top: 30px;
-  height: 485px;
+  height: 600px;
   background-color: #fff;
 }
 .login-img-box {
@@ -105,7 +116,7 @@ export default {
 }
 .login-container {
   width: 80%;
-  height: 280px;
+  height: px;
   border: #ED3F14 solid 1px;
 }
 .login-header {

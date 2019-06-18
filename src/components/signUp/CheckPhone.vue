@@ -1,15 +1,32 @@
 <template>
   <div class="info-form">
+    
     <Form ref="formValidate" :model="formValidate" :label-width="80" :rules="ruleValidate">
-      <FormItem label="手机号" prop="phone">
+      <FormItem label="用户名" prop="username">
+          <i-input v-model="formValidate.username" clearable size="large"  placeholder="请输入手机号"></i-input>
+      </FormItem>
+      <FormItem label="密码" prop="password">
+          <i-input v-model="formValidate.password" clearable size="large"  type="password" placeholder="请输入手机号"></i-input>
+      </FormItem>
+      <FormItem label="手机号" prop="">
           <i-input v-model="formValidate.phone" clearable size="large"  placeholder="请输入手机号"></i-input>
       </FormItem>
       <FormItem label="验证码" prop="checkNum">
-          <i-input v-model="formValidate.checkNum" size="large"  placeholder="请输入验证码">
+          <i-input v-model="formValidate.phone_code" size="large"  placeholder="请输入验证码">
             <Button slot="append" @click="getcheckNum">获取验证码</Button>
           </i-input>
       </FormItem>
-      <Button type="error" size="large" long @click="handleSubmit('formValidate')">验证手机号</Button>
+      <FormItem label="图片验证码" prop="">
+        <img src="http://localhost:8080/user/getCode" 
+        onclick="this.src='http://localhost:8080/user/getCode?s='+Math.random()"/>
+          <i-input v-model="formValidate.code" clearable size="large"  placeholder="请输入图形验证码">
+          </i-input>
+      </FormItem>
+      <FormItem label="收货地址" >
+          <i-input v-model="formValidate.address" clearable size="large"  placeholder=""></i-input>
+      </FormItem>
+      
+      <Button type="error" size="large" long @click="handleSubmit('formValidate')">注册</Button>
     </Form>
   </div>
 </template>
@@ -22,8 +39,7 @@ export default {
   data () {
     return {
       formValidate: {
-        phone: '',
-        checkNum: ''
+       
       },
       ruleValidate: {
         phone: [
@@ -55,18 +71,7 @@ export default {
       }
     },
     handleSubmit (name) { // 提交验证
-      this.$refs[name].validate((valid) => {
-        if (valid) {
-          this.$router.push({ path: '/SignUp/inputInfo', query: { phone: this.formValidate.phone } });
-          this.SET_SIGN_UP_SETP(1);
-        } else {
-          this.$Message.error({
-            content: '请填写正确的信息',
-            duration: 6,
-            closable: true
-          });
-        }
-      });
+      console.log(this.formValidate);
     }
   },
   store
@@ -76,5 +81,6 @@ export default {
 <style scoped>
 .info-form {
   width: 90% !important;
+
 }
 </style>

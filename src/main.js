@@ -6,6 +6,10 @@ import router from './router';
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
 import http from './http';
+
+import axios from 'axios';
+axios.defaults.withCredentials = true;// 让ajax携带cookie
+
 Vue.prototype.$http = http;
 
 Vue.use(iView);

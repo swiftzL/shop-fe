@@ -25,7 +25,7 @@ router.afterEach(route => {
 });
 
 /* eslint-disable no-new */
-new Vue({
+window.vm = new Vue({
   el: '#app',
   router,
   components: { App },

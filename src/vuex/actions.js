@@ -758,3 +758,9 @@ export const isLogin = ({ commit }) => {
     commit('SET_USER_LOGIN_INFO', JSON.parse(user));
   }
 };
+// 添加用户
+export const add = ({ commit },data) => {
+  commit('SET_USER_LOGIN_INFO', JSON.parse(data));
+  
+};
+

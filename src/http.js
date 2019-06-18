@@ -15,18 +15,20 @@ http.interceptors.request.use(function (config) {
 // 添加响应拦截器
 http.interceptors.response.use((response) => {
   // 对响应数据做点什么
-  if (response.data.code == 200) {
-    window.vm.$Message.success({
-      content: response.data.msg,
-      duration: 6,
-      closable: true
-    });
-  }else{
-    window.vm.$Message.warning({
-      content: response.data.msg,
-      duration: 6,
-      closable: true
-    });
+  if(!response.data.msg.startsWith("操作")) {
+    if (response.data.code == 200) {
+      window.vm.$Message.success({
+        content: response.data.msg,
+        duration: 6,
+        closable: true
+      });
+    }else{
+      window.vm.$Message.warning({
+        content: response.data.msg,
+        duration: 6,
+        closable: true
+      });
+    }
   }
   return response;
 }, (error) => {

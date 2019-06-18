@@ -43,13 +43,13 @@
 <script>
 import store from '@/vuex/store';
 import { mapMutations, mapActions } from 'vuex';
+import Qs from 'qs';
 export default {
   name: 'Login',
   data () {
     return {
       formDate: {
-        username: '',
-        password: ''
+        
       },
       ruleInline: {
         username: [
@@ -66,26 +66,22 @@ export default {
     ...mapMutations(['SET_USER_LOGIN_INFO']),
     ...mapActions(['login']),
     handleSubmit (name) {
-      console.log("lzl123")
-      this.$http.get("user/test").then(res =>{
-        console.log(res)
-      })
+      
+      
+      console.log(this.$store.state.userInfo.username)
+      let data = {
+          username: this.formDate.username,
+          password: this.formDate.password,
+          code: this.formDate.code
+      }
+      add(data)
+
+      // this.$http.post("user/login",Qs.stringify(data)).then(res =>{
+      //   this.$store.state.userInfo.username=res.data.obj.username
+      // })
       const father = this;
-      console.log(this.formDate.username);
-      this.$refs[name].validate((valid) => {
-        if (valid) {
-          this.login(father.formDate).then(result => {
-            if (result) {
-              this.$Message.success('登录成功');
-              father.$router.push('/');
-            } else {
-              this.$Message.error('用户名或密码错误');
-            }
-          });
-        } else {
-          this.$Message.error('请填写正确的用户名或密码');
-        }
-      });
+      
+      
     }
   },
   store

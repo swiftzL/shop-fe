@@ -62,11 +62,19 @@ export default {
       }
     };
   },
+
   methods: {
     ...mapMutations(['SET_USER_LOGIN_INFO']),
-    ...mapActions(['login']),
+    ...mapActions([]),
     handleSubmit (name) {
-      
+      // this.$http.get("alipay/pay",Qs.stringify(data)).then(res =>{
+      //    this.$store.state.userInfo.username=res.data.obj.username
+      //  })
+      // location.href = 'http://119.23.25.226:8080/alipay/pay'
+      let userInfo = {
+        username: 'lzl'
+      }
+       this.$store.commit('SET_USER_LOGIN_INFO',userInfo)
       
       console.log(this.$store.state.userInfo.username)
       let data = {
@@ -74,11 +82,9 @@ export default {
           password: this.formDate.password,
           code: this.formDate.code
       }
-      add(data)
+      
 
-      // this.$http.post("user/login",Qs.stringify(data)).then(res =>{
-      //   this.$store.state.userInfo.username=res.data.obj.username
-      // })
+       
       const father = this;
       
       

@@ -5,7 +5,10 @@ export const SET_SIGN_UP_SETP = (state, step) => {
 
 // 设置用户登录信息
 export const SET_USER_LOGIN_INFO = (state, data) => {
+  console.log(data);
+
   state.userInfo = data;
+ 
 };
 
 // 设置加载状态

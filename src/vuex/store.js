@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import * as actions from './actions';
 import * as mutations from './mutations';
 import * as getters from './getters';
+import createPersistedState from "vuex-persistedstate"
 
 Vue.use(Vuex);
 
@@ -47,7 +48,9 @@ export default new Vuex.Store({
     newShoppingCart: [], // 刚加入的购物车，作为展示
     recommend: [] // 推荐购买
   },
+ 
   getters,
   actions,
-  mutations
+  mutations,
+  plugins: [createPersistedState()]
 });

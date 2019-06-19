@@ -21,6 +21,9 @@
           <Button slot="append" @click="getcheckNum">获取验证码</Button>
         </i-input>
       </FormItem>
+      <Upload :on-success="handleSuccess" action="//jsonplaceholder.typicode.com/posts/">
+        <Button icon="ios-cloud-upload-outline">Upload files</Button>
+    </Upload>
       <FormItem label="图片验证码" prop>
         <img
           src="http://localhost:8080/user/getCode"
@@ -71,6 +74,9 @@ export default {
   },
   methods: {
     ...mapMutations(["SET_SIGN_UP_SETP"]),
+    handleSuccess (res, file) {
+                console.log(res)
+            },
     getcheckNum() {
       if (this.formValidate.phone.length === 11) {
         const res = this.$http

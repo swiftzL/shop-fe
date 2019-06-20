@@ -26,3 +26,7 @@ export const seckillsMinutes = state => {
 export const seckillsSeconds = state => {
   return state.seckills.deadline.seconds < 10 ? `0${state.seckills.deadline.seconds}` : state.seckills.deadline.seconds;
 };
+
+export const getToken = state => {
+  return state.jwt;
+}

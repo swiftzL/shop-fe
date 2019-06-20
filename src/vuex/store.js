@@ -9,6 +9,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    jwt: '', // 用户token
     isLoading: false, // 是否展示loading动画
     orderBy: 'sale', // 根据什么字段排序
     goodsInfo: { // 商品详情
@@ -48,7 +49,6 @@ export default new Vuex.Store({
     newShoppingCart: [], // 刚加入的购物车，作为展示
     recommend: [] // 推荐购买
   },
- 
   getters,
   actions,
   mutations,

@@ -13,9 +13,7 @@
             <span class="item-detail-express">校园配送</span> {{book.bookname}}</p>
         </div>
         <div class="item-detail-tag">
-          <p>
-            <span v-for="(item,index) in goodsInfo.tags" :key="index">【{{item}}】</span>
-          </p>
+          
         </div>
         <div class="item-detail-price-row">
           <div class="item-price-left">
@@ -28,8 +26,8 @@
             
             <div class="item-price-row">
               <p>
-                <span class="item-price-title">促&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;销</span>
-                <span class="item-price-full-cut" v-for="(item,index) in goodsInfo.promotion" :key="index">{{item}}</span>
+                <span class="item-price-title">出版&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;社</span>
+                <span class="item-price-full-cut">{{book.publisher}}</span>
               </p>
             </div>
           </div>
@@ -71,7 +69,7 @@
 
 <script>
 import store from '@/vuex/store';
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions ,mapMutations} from 'vuex';
 export default {
   name: 'ShowGoods',
   data () {
@@ -96,37 +94,12 @@ export default {
   },
   computed: {
     ...mapState(['goodsInfo']),
-    hirePurchase () {
-      const three = this.price * this.count / 3;
-      const sex = this.price * this.count / 6;
-      const twelve = this.price * this.count / 12 * 1.0025;
-      const twentyFour = this.price * this.count / 24 * 1.005;
-      return [
-        {
-          tooltip: '无手续费',
-          type: '不分期'
-        },
-        {
-          tooltip: '无手续费',
-          type: `￥${three.toFixed(2)} x 3期`
-        },
-        {
-          tooltip: '无手续费',
-          type: `￥${sex.toFixed(2)} x 6期`
-        },
-        {
-          tooltip: '含手续费：费率0.25%起，￥0.1起×12期',
-          type: `￥${twelve.toFixed(2)} x 12期`
-        },
-        {
-          tooltip: '含手续费：费率0.5%起，￥0.1起×12期',
-          type: `￥${twentyFour.toFixed(2)} x 24期`
-        }
-      ];
-    }
+    
+    
   },
   methods: {
-    ...mapActions(['addShoppingCart']),
+    ...mapMutations(['']),
+    ...mapActions(['ADD_SHOPPING_CART']),
     select (index1, index2) {
       this.selectBoxIndex = index1 * 3 + index2;
       this.price = this.goodsInfo.setMeal[index1][index2].price;
@@ -135,18 +108,29 @@ export default {
       this.imgIndex = index;
     },
     addShoppingCartBtn () {
-      const index1 = parseInt(this.selectBoxIndex / 3);
-      const index2 = this.selectBoxIndex % 3;
-      const date = new Date();
-      const goodsId = date.getTime();
-      const data = {
-        goods_id: goodsId,
-        title: this.goodsInfo.title,
+      this.$http.get("car/add",{
+        params: {
+        bid: this.book.bid,
+        number: this.count
+        }
+      }).then(res => {
+        if(res.data.code == 200){
+        const data = {
+        goods_id: this.book.bid,
+        title: this.book.bookname,
         count: this.count,
-        package: this.goodsInfo.setMeal[index1][index2]
-      };
-      this.addShoppingCart(data);
-      this.$router.push('/shoppingCart');
+        price: this.book.bookprice,
+        img: this.book.bookimage
+      }
+      console.log(data)
+      this.$store.commit('ADD_SHOPPING_CART',data)
+      
+
+        }
+      })
+
+      
+     
     }
   },
   mounted () {

@@ -16,6 +16,7 @@ export default {
   name: 'Search',
   data () {
     return {
+      bid:'',
       sreachData: '',
       promotionTags: []
     };
@@ -36,7 +37,17 @@ export default {
       this.sreachData = this.promotionTags[index];
     },
     sreach () {
-      this.$router.push({path: '/goodsList', query: { sreachData: this.sreachData }});
+      this.$http.get("book/findByBookname",{
+      params:{
+        bookname:this.sreachData
+      }
+    }).then((res)=>{
+      this.bid = res.data.obj.bid
+      console.log(this.bid)
+      this.$router.push({path: '/goodsDetail', query: { bookid:this.bid }});
+    })
+  
+      // this.$router.push({path: '/goodsDetail', query: { bookid:this.bid }});
     }
   }
 };

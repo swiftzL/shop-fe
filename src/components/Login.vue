@@ -71,17 +71,27 @@ export default {
       //    this.$store.state.userInfo.username=res.data.obj.username
       //  })
       // location.href = 'http://119.23.25.226:8080/alipay/pay'
-      let userInfo = {
-        username: 'lzl'
-      }
-       this.$store.commit('SET_USER_LOGIN_INFO',userInfo)
-      
-      console.log(this.$store.state.userInfo.username)
       let data = {
-          username: this.formDate.username,
-          password: this.formDate.password,
-          code: this.formDate.code
+        username: this.formDate.username,
+        password: this.formDate.password,
+        code: this.formDate.code
       }
+      let userInfo = {
+          username: ''
+        }
+      this.$http.post("user/login",Qs.stringify(data)).then(res => {
+        if(res.data.code == 200){
+            userInfo.username = res.data.obj.username
+        this.$store.commit('SET_USER_LOGIN_INFO',userInfo)
+        this.$router.push('/')
+        }
+        
+        
+      })
+       
+      
+     
+     
       
 
        

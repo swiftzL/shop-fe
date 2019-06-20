@@ -80,11 +80,13 @@ export default {
         {
           title: '图片',
           key: 'img',
-          width: 86,
+          width: 80,
+          height: '30px',
           render: (h, params) => {
             return h('div', [
               h('img', {
                 attrs: {
+                  height: "80px",
                   src: params.row.img
                 }
               })
@@ -95,12 +97,6 @@ export default {
         {
           title: '标题',
           key: 'title',
-          align: 'center'
-        },
-        {
-          title: '套餐',
-          width: 198,
-          key: 'package',
           align: 'center'
         },
         {
@@ -234,5 +230,10 @@ export default {
   margin: 15px 0px;
   display: flex;
   justify-content: flex-end;
+}
+img {
+  width: 200px;
+  height: 30px;
+  border-radius: 8px;
 }
 </style>

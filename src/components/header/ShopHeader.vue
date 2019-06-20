@@ -34,20 +34,7 @@ export default {
       shopIntro: {
         shopName: 'Gavin Shop',
         slogen: 'The Best Thing For You',
-        showGoods: [
-          {
-            img: 'static/img/goodsList/item-show-1.jpg',
-            intro: [ '全身磨砂', '防指纹' ]
-          },
-          {
-            img: 'static/img/goodsList/item-show-2.jpg',
-            intro: [ '环保PP材质', '不发黄' ]
-          },
-          {
-            img: 'static/img/goodsList/item-show-3.jpg',
-            intro: [ '0.4mm纤细', '纤薄手感' ]
-          }
-        ]
+        
       }
     };
   }

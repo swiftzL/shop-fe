@@ -63,14 +63,12 @@
                     </div>
                     <div class="shopping-cart-detail">
                       <p>
-                        套餐:
-                        <span class="shopping-cart-text">
-                          {{item.package}}
-                        </span>
+                        
                         数量:
                         <span class="shopping-cart-text">
                           {{item.count}}
                         </span>
+                        <br>
                         价钱:
                         <span class="shopping-cart-text">
                           {{item.price}}

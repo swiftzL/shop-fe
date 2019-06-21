@@ -2,17 +2,16 @@
   <div>
     <div class="address-box" v-for="(item, index) in address" :key="index">
       <div class="address-header">
-        <span>{{item.name}}</span>
+        <span>{{item.username}}</span>
         <div class="address-action">
           <span @click="edit(index)"><Icon type="edit"></Icon> 修改</span>
           <span @click="del(index)"><Icon type="trash-a"></Icon> 删除</span>
         </div>
       </div>
       <div class="address-content">
-        <p><span class="address-content-title"> 收 货 人 :</span> {{item.name}}</p>
-        <p><span class="address-content-title">收货地区:</span> {{item.province}} {{item.city}} {{item.area}}</p>
+        <p><span class="address-content-title"> 收 货 人 :</span> {{item.username}}</p>
         <p><span class="address-content-title">收货地址:</span> {{item.address}}</p>
-        <p><span class="address-content-title">邮政编码:</span> {{item.postalcode}}</p>
+        <p><span class="address-content-title">邮政编码:</span> {{item.postCode}}</p>
       </div>
     </div>
     <Modal v-model="modal" width="530">
@@ -54,6 +53,7 @@ export default {
   name: 'MyAddress',
   data () {
     return {
+      address:[],
       modal: false,
       formData: {
         name: '',
@@ -81,34 +81,62 @@ export default {
       }
     };
   },
+
   created () {
-    this.loadAddress();
+    this.$http.get("address/findAll").then(res => {
+      console.log(res.data)
+      this.address = res.data.obj
+    })
   },
   computed: {
-    ...mapState(['address'])
+   
   },
   methods: {
-    ...mapActions(['loadAddress']),
+    
     edit (index) {
       this.modal = true;
-      this.formData.province = this.address[index].province;
-      this.formData.city = this.address[index].city;
-      this.formData.area = this.address[index].area;
+      this.index = index;
+      this.formData.id = this.address[index].id;
       this.formData.address = this.address[index].address;
-      this.formData.name = this.address[index].name;
+      this.formData.name = this.address[index].username;
       this.formData.phone = this.address[index].phone;
-      this.formData.postalcode = this.address[index].postalcode;
+      this.formData.postalcode = this.address[index].postCode;
     },
     editAction () {
       this.modal = false;
-      this.$Message.success('修改成功');
+      let params = {
+        id: this.formData.id,
+        username: this.formData.name,
+        address: this.formData.province+this.formData.city+this.formData.area+this.formData.address,
+        phone: this.formData.phone,
+        postCode: this.formData.postalcode
+      }
+      this.$http.get("address/update",{
+        params
+        
+      }).then(res => {
+        if(res.data.code == 200){
+          this.address[this.index] = params;
+        }
+      })
+      
     },
+
     del (index) {
       this.$Modal.confirm({
         title: '信息提醒',
         content: '你确定删除这个收货地址',
         onOk: () => {
-          this.$Message.success('删除成功');
+          this.$http.get("address/delete",{
+            params:{
+              id: this.address[index].id
+            }
+          }).then(res => {
+            if(res.data.code == 200){
+              this.address.splice(this.address.findIndex(item => item.id === this.address[index].id), 1)
+            }
+          })
+          
         },
         onCancel: () => {
           this.$Message.info('取消删除');

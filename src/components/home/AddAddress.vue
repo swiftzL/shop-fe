@@ -24,7 +24,7 @@
         </Form>
       </div>
       <div class="add-submit">
-        <Button type="primary">添加地址</Button>
+        <Button type="primary" @click="submit">添加地址</Button>
       </div>
     </div>
   </div>
@@ -71,6 +71,24 @@ export default {
     },
     getArea (data) {
       this.formData.area = data.value;
+    },
+    submit(){
+      let data = {
+        username: this.formData.name,
+        address: this.formData.province+this.formData.city+this.formData.area+this.formData.address,
+        phone: this.formData.phone,
+        post_code: this.formData.postCode
+      }
+      this.$http.get("address/add",{
+        params: {
+        username: this.formData.name,
+        address: this.formData.province+this.formData.city+this.formData.area+this.formData.address,
+        phone: this.formData.phone,
+        postCode: this.formData.postalcode
+        }
+      }).then(res => {
+        console.log(res.data)
+      })
     }
   },
   components: {
